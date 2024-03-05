@@ -1,118 +1,86 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
+import React, {useState, useEffect} from 'react';
+import { Image,
   StyleSheet,
   Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+TouchableOpacity,
+View } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+function App(): React.JSX.Element {
+  let ss: number = 0;
+  let mm: number = 0;
+  let hh: number = 0;
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  const [botao, setBotao] = useState('Iniciar');
+  const [ultimo,setUltimo] = useState('00:00:00');
+  const [formattedTime, setFormattedTime] = useState('00:00:00');
+  const [intervalId,setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+      <Image 
+      source={require('./src/assets/images/crono.png')}
+      />
+
+      <Text style={styles.timer}>{ formattedTime }</Text>
+
+      <View style={styles.btnArea}>
+        <TouchableOpacity style={styles.btn}>
+            <Text style={styles.btnTexto}>{ botao }</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btn}>
+            <Text style={styles.btnTexto}>Limpar</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.areaTempo}>
+        <Text style={styles.textoCorrida}>
+          Ultimo Tempo: 00:00:00
+        </Text>
+      </View>
     </View>
   );
 }
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+container: {
+  flex: 1,
+  alignItems:'center',
+  justifyContent:'center',
+  backgroundColor:'#00aeef'
+},
+areaTempo: {
+  marginTop: 40
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+textoCorrida: { 
+  fontSize: 20,
+  color: '#FFF',
+  fontStyle: 'italic'
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+timer: {
+  marginTop: -160,
+  fontSize: 45,
+  fontWeight: 'bold',
+  color: '#FFF'
   },
-  highlight: {
-    fontWeight: '700',
+btn: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#FFF',
+  height: 40,
+  width: 17,
+  borderRadius: 20
   },
+btnTexto: {
+  fontSize: 20,
+  fontWeight: 'bold',
+  color: '#00aeef'
+  },
+btnArea: {
+  flexDirection:'row',
+  marginTop: 130,
+  height: 40
+  }
 });
 
 export default App;
